@@ -1,6 +1,7 @@
 # 실습 2: 스케일링 (Scaling)
 
 ## 🎯 학습 목표
+
 - `Deployment`의 `replicas` 값을 변경하여 Pod의 개수를 동적으로 조절(스케일링)할 수 있다.
 - **Scale Out**(확장)과 **Scale In**(축소)을 직접 수행한다.
 
@@ -38,10 +39,10 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: your-dockerhub-username/todo-list-frontend:v1.0
-        ports:
-        - containerPort: 3000
+        - name: frontend
+          image: your-dockerhub-username/todo-list-frontend:v1.0
+          ports:
+            - containerPort: 3000
 ```
 
 ```bash
@@ -81,10 +82,10 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: your-dockerhub-username/todo-list-frontend:v1.0
-        ports:
-        - containerPort: 3000
+        - name: frontend
+          image: your-dockerhub-username/todo-list-frontend:v1.0
+          ports:
+            - containerPort: 3000
 ```
 
 ```bash

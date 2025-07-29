@@ -4,14 +4,14 @@ metadata:
   name: resource-pod
 spec:
   containers:
-  - name: resource-container
-    image: nginx
-    ports:
-    - containerPort: 80
-    resources:
-      requests:
-        cpu: "100m"
-        memory: "128Mi"
-      limits:
-        cpu: "200m"
-        memory: "256Mi"
+    - name: resource-container
+      image: nginx
+      ports:
+        - containerPort: 80
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "200m"
+          memory: "256Mi"

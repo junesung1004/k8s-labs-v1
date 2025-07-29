@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-pod
+  labels:
+    app: backend
+spec:
+  containers:
+    - name: backend
+      image: junesung6009/ddodddo-backend:latest # Docker Hub 사용자 이름으로 변경 필요
+      ports:
+        - containerPort: 5000
+      env:
+        - name: DB_URL
+          value: "jdbc:postgresql://db-pod:5432/ddoddodb"
+
+        - name: DB_USERNAME
+          value: "user"
+
+        - name: DB_PASSWORD
+          value: "1234"
+
+        - name: DDL_AUTO
+          value: "update"
+
+        - name: SHOW_SQL
+          value: "true"
+
+        - name: JWT_SET_URI
+          value: "https://yidvlsldzbtkostxvuff.supabase.co/auth/v1/keys"
+
+        - name: JWT_SECRET_KEY
+          value: "dummy"
+
+        - name: CLOUDFLARE_ACCESS_KEY_ID
+          value: "b033e413e50042565a1ae0a94b12609c"
+
+        - name: CLOUDFLARE_SECRET_ACCESS_KEY
+          value: "3c782c840980d2487f209dabcd6bb6e2f2627df82bb2fdfe1a4c5d4915987e6e"
+
+        - name: CLOUDFLARE_R2_BUCKET_NAME
+          value: "ddoddo-images"
+
+        - name: CLOUDFLARE_ACCOUNT_ID
+          value: "f9251ada478d0c29cd5fc6bf47e8ca0f"
+
+        - name: CLOUDFLARE_R2_PUBLIC_URL
+          value: "https://f9251ada478d0c29cd5fc6bf47e8ca0f.r2.cloudflarestorage.com/ddoddo-images"

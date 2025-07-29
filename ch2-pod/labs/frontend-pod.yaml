@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend-pod
+  labels:
+    app: frontend
+spec:
+  containers:
+    - name: frontend
+      image: junesung6009/ddoddo-frontend:latest # Docker Hub 사용자 이름으로 변경 필요
+      ports:
+        - containerPort: 3000
+      env:
+        - name: NEXT_PUBLIC_API_BASE_URL
+          value: "http://backend-service:5000"
+        - name: NEXT_PUBLIC_CLOUDFLARE_PUBLIC_URL
+          value: "https://f9251ada478d0c29cd5fc6bf47e8ca0f.r2.cloudflarestorage.com/ddoddo-images"

@@ -1,4 +1,3 @@
-
 # 실습 2: YAML 파일을 이용한 Pod 생성
 
 이 실습에서는 YAML 파일을 사용하여 Pod를 생성하는 방법을 배웁니다.
@@ -14,10 +13,10 @@ metadata:
   name: nginx-pod-yaml
 spec:
   containers:
-  - name: nginx-container
-    image: nginx
-    ports:
-    - containerPort: 80
+    - name: nginx-container
+      image: nginx
+      ports:
+        - containerPort: 80
 ```
 
 ## 2. YAML 파일을 이용한 Pod 생성

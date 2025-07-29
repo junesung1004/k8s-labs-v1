@@ -1,6 +1,7 @@
 # 실습 3: 롤링 업데이트 (Rolling Update)
 
 ## 🎯 학습 목표
+
 - `Deployment`의 롤링 업데이트 전략을 이해한다.
 - 서비스 중단 없이 애플리케이션 버전을 안전하게 업데이트할 수 있다.
 - 업데이트 기록을 확인하고, 이전 버전으로 롤백(Rollback)할 수 있다.
@@ -32,11 +33,11 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        # 본인의 v1.0 이미지 주소로 변경
-        image: your-dockerhub-username/k8s-labs-todo-backend:v1.0
-        ports:
-        - containerPort: 8080
+        - name: backend
+          # 본인의 v1.0 이미지 주소로 변경
+          image: your-dockerhub-username/k8s-labs-todo-backend:v1.0
+          ports:
+            - containerPort: 8080
 ```
 
 ### 2. v2.0으로 롤링 업데이트
@@ -60,24 +61,25 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        # 본인의 v2.0 이미지 주소로 변경
-        image: your-dockerhub-username/k8s-labs-todo-backend:v2.0
-        ports:
-        - containerPort: 8080
+        - name: backend
+          # 본인의 v2.0 이미지 주소로 변경
+          image: your-dockerhub-username/k8s-labs-todo-backend:v2.0
+          ports:
+            - containerPort: 8080
 ```
 
 새 터미널을 열어 Pod의 변화를 관찰(`watch`)하고, 다른 터미널에서 업데이트를 적용합니다.
 
--   **터미널 1 (관찰용):**
-    ```bash
-    watch kubectl get pods -l app=backend
-    ```
+- **터미널 1 (관찰용):**
 
--   **터미널 2 (실행용):**
-    ```bash
-    kubectl apply -f backend-deployment.yaml
-    ```
+  ```bash
+  watch kubectl get pods -l app=backend
+  ```
+
+- **터미널 2 (실행용):**
+  ```bash
+  kubectl apply -f backend-deployment.yaml
+  ```
 
 관찰용 터미널을 보면, 새로운 Pod(`v2.0`)가 `ContainerCreating` 상태로 생성되고, `Running`이 되면 기존 Pod(`v1.0`)가 `Terminating` 상태로 사라지는 과정이 순차적으로 반복되는 것을 볼 수 있습니다.
 
