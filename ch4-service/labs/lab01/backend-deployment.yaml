@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: junesung6009/k8s-labs-todo-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: PGUSER
+              value: "user"
+            - name: PGHOST
+              value: "database-service" # 변경됨
+            - name: PGDATABASE
+              value: "tododb"
+            - name: PGPASSWORD
+              value: "password"
+            - name: PGPORT
+              value: "5432"
