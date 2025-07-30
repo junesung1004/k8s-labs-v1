@@ -18,7 +18,8 @@
 
 ```bash
 kubectl create configmap nginx-conf --from-file=default.conf
-kubectl apply -f default.conf -f nginx-pod.yaml
+# kubectl apply -f default.conf -f nginx-pod.yaml
+kubectl apply -f nginx-pod.yaml
 
 # 포트포워딩 실행 (새 터미널을 열어두세요)
 kubectl port-forward nginx-configmap-volume-pod 8000:80
