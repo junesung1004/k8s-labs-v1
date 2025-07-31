@@ -3,9 +3,11 @@ kind: Service
 metadata:
   name: backend-service
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
-    app: backend # backend-pod의 라벨
+    app: backend
   ports:
-    - port: 8080 # 서비스가 외부에 노출할 포트 (frontend가 이걸 호출함)
-      targetPort: 5000 # backend 컨테이너의 실제 포트
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 32080

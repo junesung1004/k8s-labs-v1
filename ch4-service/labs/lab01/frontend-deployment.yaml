@@ -14,9 +14,12 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: junesung6009/k8s-labs-todo-frontend:latest
+          image: captainyun/k8s-labs-todo-frontend:v1.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
-            - name: REACT_APP_API_URL
-              value: "http://backend-service:8080" # 변경됨
+            - name: VITE_API_URL
+              # ❗️ Service DNS를 사용하여 Backend에 접근합니다.
+              # ❗️ http://<서비스이름>:<서비스포트>
+              value: "http://localhost:8080"
