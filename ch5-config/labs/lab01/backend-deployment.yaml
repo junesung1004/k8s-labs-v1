@@ -1,26 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-server
-  labels:
-    app: backend-server
+  name: backend-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: backend-server
+      app: backend
   template:
     metadata:
       labels:
-        app: backend-server
+        app: backend
     spec:
       containers:
         - name: backend
-          image: captainyun/ddoddo-market-backend:v1.0
+          image: captainyun/k8s-labs-todo-backend:v1.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: ddoddo-backend-config
+                name: todo-list-config
             - secretRef:
-                name: ddoddo-backend-secret
+                name: todo-list-secret
