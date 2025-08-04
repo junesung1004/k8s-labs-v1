@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-server
+  labels:
+    app: backend-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-server
+  template:
+    metadata:
+      labels:
+        app: backend-server
+    spec:
+      containers:
+        - name: backend
+          image: captainyun/ddoddo-market-backend:v1.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: ddoddo-backend-config
+            - secretRef:
+                name: ddoddo-backend-secret

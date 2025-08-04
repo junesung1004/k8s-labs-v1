@@ -5,6 +5,8 @@ metadata:
   annotations:
     # rewrite-target 어노테이션은 그대로 유지합니다.
     nginx.ingress.kubernetes.io/rewrite-target: /
+    # 원요청 /a-service/api/v1/todos... -> /api/v1/todos...
+    # getmapping("/api/v1/todos")
 spec:
   # defaultBackend를 추가합니다.
   # 어떤 규칙과도 맞지 않는 요청이 들어올 경우, 기본적으로 hello-service로 보냅니다.

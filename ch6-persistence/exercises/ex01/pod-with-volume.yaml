@@ -9,6 +9,7 @@ spec:
       command: ["/bin/sh", "-c"]
       args:
         - >
+          mkdir -p /data;
           while true; do
             echo "$(date)" >> /data/time.txt;
             sleep 20;
@@ -16,11 +17,11 @@ spec:
       # 2. 컨테이너의 /data 경로에 'my-volume'을 연결합니다.
       volumeMounts:
         - name: my-volume
-          mountPath: /data
+          mountPath: /data # 볼륨 저장소를 여기에다가 만들겠다.
   # 1. 'my-volume'이라는 이름의 볼륨을 정의합니다.
   # 이 볼륨은 호스트 머신(Minikube)의 /tmp/k8s-data 디렉토리를 사용합니다.
   volumes:
     - name: my-volume
-      hostPath:
+      hostPath: # 쿠버네티스에서 사용되는 볼륨의 타입중 하나가 호스트패스이다.
         path: /tmp/k8s-data
         type: DirectoryOrCreate

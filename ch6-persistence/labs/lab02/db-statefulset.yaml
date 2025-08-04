@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ddoddo-db
+spec:
+  serviceName: "db-svc" # Headless Service 이름
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ddoddo-db
+  template:
+    metadata:
+      labels:
+        app: ddoddo-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: ddoddo-market-config
+            - secretRef:
+                name: ddoddo-market-secret
+          volumeMounts:
+            - name: ddoddo-db-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: ddoddo-db-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 1Gi

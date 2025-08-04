@@ -2,22 +2,22 @@
 
 `PVC`와 `PV` 덕분에 우리는 이제 Pod이 재시작되어도 데이터가 보존되는 '영속적인 저장 공간'을 갖게 되었습니다. 하지만 데이터베이스 같은 애플리케이션에게는 이것만으로는 부족합니다. 한 번 생각해 봅시다.
 
-  - 여러 개로 복제된 데이터베이스 중 누가 '메인(Master)'이고 누가 '백업(Replica)'일까요?
-  - 데이터베이스들끼리 서로를 어떻게 찾아 통신할까요? Pod의 IP는 계속 바뀌는데 말이죠.
-  - 각 데이터베이스는 자신만의 독립된 저장 공간을 가져야 하지 않을까요?
+- 여러 개로 복제된 데이터베이스 중 누가 '메인(Master)'이고 누가 '백업(Replica)'일까요?
+- 데이터베이스들끼리 서로를 어떻게 찾아 통신할까요? Pod의 IP는 계속 바뀌는데 말이죠.
+- 각 데이터베이스는 자신만의 독립된 저장 공간을 가져야 하지 않을까요?
 
 `Deployment`는 이러한 요구사항을 충족시키기 어렵습니다. `Deployment`의 Pod들은 이름도 무작위이고, 언제든지 대체될 수 있는 '일회용품'에 가깝기 때문입니다. 이번 실습에서는 이러한 상태 저장 애플리케이션을 위해 특별히 설계된 **`StatefulSet`** 에 대해 배워보겠습니다.
 
------
+---
 
 ### 📂 예제 파일
 
-| 파일명 | 설명 |
-| :--- | :--- |
+| 파일명                  | 설명                                                           |
+| :---------------------- | :------------------------------------------------------------- |
 | `headless-service.yaml` | StatefulSet의 Pod들에게 고유한 주소를 부여하는 Headless 서비스 |
-| `statefulset.yaml` | Nginx 이미지를 사용하는 기본적인 StatefulSet |
+| `statefulset.yaml`      | Nginx 이미지를 사용하는 기본적인 StatefulSet                   |
 
------
+---
 
 ### 🎯 학습 목표
 
@@ -26,7 +26,7 @@
 3.  `StatefulSet`과 함께 사용되는 **`Headless Service`** 의 역할을 이해한다.
 4.  `StatefulSet`을 직접 배포하고, Pod의 이름, 스토리지, 확장/축소 과정을 관찰한다.
 
------
+---
 
 ## 1\. `StatefulSet`의 세 가지 약속
 
@@ -97,24 +97,24 @@ spec:
         app: nginx-ss
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.21
-        ports:
-        - containerPort: 80
-        volumeMounts:
-        - name: data # 아래 volumeClaimTemplates의 이름과 일치해야 합니다.
-          mountPath: /usr/share/nginx/html
+        - name: nginx
+          image: nginx:1.21
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: data # 아래 volumeClaimTemplates의 이름과 일치해야 합니다.
+              mountPath: /usr/share/nginx/html
   # 이 부분이 StatefulSet의 핵심입니다.
   # 각 Pod을 위한 PVC를 자동으로 생성해주는 템플릿입니다.
   volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard" # ex02에서 확인한 StorageClass
-      resources:
-        requests:
-          storage: 1Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "standard" # ex02에서 확인한 StorageClass
+        resources:
+          requests:
+            storage: 1Gi
 ```
 
 `StatefulSet`을 배포합니다.
@@ -170,10 +170,10 @@ PVC 이름이 `(volumeClaimTemplate의 name)-(StatefulSet의 name)-(순번)` 규
     ```
     이번에는 순번이 가장 높은 `nginx-ss-4`가 먼저 삭제되고, 그 다음 `nginx-ss-3`이 삭제되는 것을 볼 수 있습니다.
 
------
+---
 
 ### ⭐ 핵심 정리
 
-  - 데이터베이스처럼 상태 유지가 중요한 애플리케이션에는 `Deployment`보다 `StatefulSet`이 적합합니다.
-  - `StatefulSet`은 Pod에게 **안정적인 이름**과 \*\*개별적인 영구 스토리지(PVC)\*\*를 제공하고, **배포 순서를 보장**합니다.
-  - `Headless Service`는 `StatefulSet`의 Pod들이 서로를 DNS 이름으로 찾을 수 있도록 돕는 필수적인 파트너입니다.
+- 데이터베이스처럼 상태 유지가 중요한 애플리케이션에는 `Deployment`보다 `StatefulSet`이 적합합니다.
+- `StatefulSet`은 Pod에게 **안정적인 이름**과 \*\*개별적인 영구 스토리지(PVC)\*\*를 제공하고, **배포 순서를 보장**합니다.
+- `Headless Service`는 `StatefulSet`의 Pod들이 서로를 DNS 이름으로 찾을 수 있도록 돕는 필수적인 파트너입니다.
