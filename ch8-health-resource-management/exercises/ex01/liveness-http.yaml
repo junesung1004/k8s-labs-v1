@@ -6,8 +6,8 @@ metadata:
     app: buggy-fixed
 spec:
   containers:
-    - name: buggy-container      
-      image: captainyun/buggy-node-app:v1.0 
+    - name: buggy-container
+      image: captainyun/buggy-node-app:v1.0
       ports:
         - containerPort: 8080
       livenessProbe:
