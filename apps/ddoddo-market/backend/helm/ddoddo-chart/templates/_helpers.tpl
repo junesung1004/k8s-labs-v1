@@ -51,6 +51,13 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Backend selector labels
+*/}}
+{{- define "ddoddo-chart.backend.selectorLabels" -}}
+app: {{ include "ddoddo-chart.name" . }}-backend
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "ddoddo-chart.serviceAccountName" -}}

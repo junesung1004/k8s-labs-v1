@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "ddoddo-chart.fullname" . }}-backend
   labels:
-    app: {{ include "ddoddo-chart.name" . }}-backend
+    {{- include "ddoddo-chart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.backend.replicaCount }}
   selector:
