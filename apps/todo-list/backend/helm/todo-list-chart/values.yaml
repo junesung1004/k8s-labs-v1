@@ -1,7 +1,7 @@
 backend:
   replicaCount: 2
   image:
-    repository: junesung1004/k8s-labs-todo-backend
+    repository: junesung6009/k8s-labs-todo-backend
     tag: v1.0
   service:
     type: NodePort

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "ddoddo-chart.fullname" . }}-db
+  labels:
+    {{- include "ddoddo-chart.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "ddoddo-chart.fullname" . }}-db-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "ddoddo-chart.fullname" . }}-db
+  template:
+    metadata:
+      labels:
+        app: {{ include "ddoddo-chart.fullname" . }}-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: {{ include "ddoddo-chart.fullname" . }}-db-config
+            - secretRef:
+                name: {{ include "ddoddo-chart.fullname" . }}-db-secret
+          volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: db-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 1Gi

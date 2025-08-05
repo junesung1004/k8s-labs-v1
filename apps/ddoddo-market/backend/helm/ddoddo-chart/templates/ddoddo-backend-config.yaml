@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ddoddo-chart.fullname" . }}-backend-config
+  labels:
+    {{- include "ddoddo-chart.labels" . | nindent 4 }}
+data:
+  DB_URL: {{ .Values.backend.env.DB_URL | quote }}
+  DB_USERNAME: {{ .Values.backend.env.DB_USERNAME | quote }}
+  JWT_SET_URI: {{ .Values.backend.env.JWT_SET_URI | quote }}
+  CLOUDFLARE_R2_BUCKET_NAME: {{ .Values.backend.env.CLOUDFLARE_R2_BUCKET_NAME | quote }}
+  CLOUDFLARE_ACCOUNT_ID: {{ .Values.backend.env.CLOUDFLARE_ACCOUNT_ID | quote }}
+  CLOUDFLARE_R2_PUBLIC_URL: {{ .Values.backend.env.CLOUDFLARE_R2_PUBLIC_URL | quote }}
+  DDL_AUTO: {{ .Values.backend.env.DDL_AUTO | quote }}
+  SHOW_SQL: {{ .Values.backend.env.SHOW_SQL | quote }}

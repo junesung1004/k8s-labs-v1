@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ddoddo-chart.fullname" . }}-db-svc
+  labels:
+    {{- include "ddoddo-chart.labels" . | nindent 4 }}
+spec:
+  clusterIP: None  # Headless Service
+  selector:
+    app: {{ include "ddoddo-chart.fullname" . }}-db
+  ports:
+    - port: 5432
+      targetPort: 5432

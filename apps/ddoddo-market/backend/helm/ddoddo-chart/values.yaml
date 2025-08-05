@@ -1,0 +1,31 @@
+replicaCount: 1
+
+backend:
+  replicaCount: 1
+  image:
+    repository: junesung6009/ddoddo-backend
+    tag: latest
+  service:
+    type: ClusterIP
+    port: 8080
+  env:
+    DB_URL: jdbc:postgresql://ddoddo-market-db-svc:5432/ddoddo_market_db
+    DB_USERNAME: root
+    JWT_SET_URI: https://yidvlsldzbtkostxvuff.supabase.co/auth/v1/jwks
+    CLOUDFLARE_R2_BUCKET_NAME: ddoddo-images
+    CLOUDFLARE_ACCOUNT_ID: f9251ada478d0c29cd5fc6bf47e8ca0f
+    CLOUDFLARE_R2_PUBLIC_URL: https://pub-1f8288ec8c2e4bc88ea722a50a3dbedf.r2.dev
+    DDL_AUTO: create
+    SHOW_SQL: "true"
+  secret:
+    DB_PASSWORD: 1234
+    JWT_SECRET_KEY: 9XiFQtlfyqnqFHgSqpIFALWSBduNoZmlpuYfAZ8dJiHDsuirTNLPd1TxxlslgqE6J7ZHTmVXvSfGyQpRv1i70g==
+    CLOUDFLARE_ACCESS_KEY_ID: 52c563392efabecc8d090222792f9d6c
+    CLOUDFLARE_SECRET_ACCESS_KEY: 51d43a8f89bbfe461a500c45aaadeb011aa0fcd49b823476ba9fd39f4b5add98
+
+db:
+  config:
+    POSTGRES_USER: root
+    POSTGRES_DB: ddoddo_market_db
+  secret:
+    POSTGRES_PASSWORD: 1234
